@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def initialize_coef_deep(layers):
     layer_size = len(layers)
     parameters = {}
@@ -29,13 +30,19 @@ def forward_propagation(X, parameters):
 def L_layer_model(X, Y, layer_dims, iteration=2000, learning_rate=0.009, print_cost=True):
     m = Y.shape[1]
     parameters = initialize_coef_deep(layer_dims)
-    for i in range(iteration):
+    x = np.arange(0, iteration + 1, 100)
+    y = []
+    for i in range(iteration + 1):
         AL, caches = forward_propagation(X, parameters)
         if i % 100 == 0 and print_cost:
             cost = compute_cost(m, AL, Y)
             print("Cost after %i iterations: %f" % (i, cost))
+            y.append(float(cost))
         grads = backward_propagation(parameters, AL, caches, Y)
         parameters = update_parameters(parameters, grads, learning_rate)
+    y = np.asarray(y)
+    plt.plot(x, y)
+    plt.show()
     return parameters
 
 
